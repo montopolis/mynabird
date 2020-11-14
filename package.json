@@ -1,0 +1,23 @@
+{
+    "name": "montopolis/mynabird",
+    "description": "Laravel/Nova package for in-app alerts.",
+    "keywords": [
+        "laravel",
+        "nova",
+        "alerts"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=7.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Montopolis\\Mynabird\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
