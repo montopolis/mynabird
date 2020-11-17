@@ -10,7 +10,7 @@ use Montopolis\Mynabird\Adapters\Laravel\LaravelAlertsRepository;
 use Montopolis\Mynabird\Interfaces\IdentityProvider;
 use Montopolis\Mynabird\Interfaces\AlertsRepository;
 
-class MynabirdAlertsLaravelServiceProvider extends ServiceProvider
+class MynabirdServiceProvider extends ServiceProvider
 {
     public function boot()
     {

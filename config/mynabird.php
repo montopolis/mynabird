@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'should_broadcast' => false,
+    'should_broadcast' => true,
 ];
