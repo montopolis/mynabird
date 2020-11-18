@@ -9,9 +9,10 @@ const log = (message) => {
 /**
  * Shows a toast message
  */
-const toast = (type, message) => {
-    if (this.$toasted) {
-        this.$toasted.show(message, { type });
+const toast = (context, type, message) => {
+    if (context.$toasted) {
+        console.log('sending toast message', context, type, message);
+        context.$toasted.show(message, { type });
     } else {
         error("No toast message provider available.");
         log(`${type} ${message}`);
@@ -22,6 +23,7 @@ const toast = (type, message) => {
  * Perform event bindings to react on incoming published events from the backend
  */
 const bindings = (channels, callback, config) => {
+    console.log('bindings', channels, callback, config);
     if (config['should_broadcast'] && window['pusher']) {
         log('Pusher found. Adding event bindings.');
         channels.map((channel) => {

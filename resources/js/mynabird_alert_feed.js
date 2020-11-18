@@ -1,3 +1,4 @@
+console.log("mynabird::log Loading");
 if (Nova) {
     Nova.booting((Vue, router) => {
         // Load components

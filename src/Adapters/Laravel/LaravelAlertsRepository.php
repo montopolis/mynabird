@@ -30,10 +30,11 @@ class LaravelAlertsRepository implements AlertsRepository
             ->fill([
                 'title' => $alert->getTitle(),
                 'body' => $alert->getBody(),
-                'level' => $alert->getLevel(),
                 'is_broadcast' => $alert->isBroadcast(),
-            ])
-            ->save();
+                'url' => $alert->getUrl(),
+                'level' => $alert->getLevel(),
+            ]);
+        $model->save();
 
         if ($recipientId = $alert->getRecipientId()) {
             $this->recipientModel()

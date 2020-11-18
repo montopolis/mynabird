@@ -61,10 +61,10 @@ export default {
         bindPusher() {
             const self = this;
             const callback = (data) => {
-                toast(data.level, data.title);
+                toast(self, data.level, data.title);
                 self.reload();
             };
-            bindings(['broadcast', `user.${this.alerts.user_id}`], callback, config);
+            bindings(['broadcast', `user.${this.alerts.user_id}`], callback, self.config);
         },
     },
     mounted() {
