@@ -1,5 +1,7 @@
 # Mynabird
 
+<img width="342" width="height" src="imgs/logo.jpg" >
+
 Laravel/Nova package for Facebook-style alerts.
 
 Currently supports Pusher for real-time notification when a new alert is received (and dynamic update of the unread counter).
@@ -21,10 +23,16 @@ php artisan vendor:publish --provider="Montopolis\Mynabird\MynabirdServiceProvid
 php artisan migrate
 ```
 
-Add these two lines to the layout template:
+Assuming you're using Nova, you'll also need to publish Nova's vendor templates (if you haven't already) so you can insert the Mynabird partials: 
+
+```bash
+php artisan nova:publish
+```
+
+... and then add these two lines to the Nova layout template:
 
 ```html
-// file: resources/views/vendor/nova/layout.blade.php
+// in file: resources/views/vendor/nova/layout.blade.php
 
   ...
 
