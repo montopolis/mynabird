@@ -1,12 +1,12 @@
 # Mynabird
 
-<img width="342" width="height" src="imgs/logo.jpg" >
+<img width="342" width="342" src="imgs/logo.jpg" >
 
 Laravel/Nova package for Facebook-style alerts.
 
 Currently supports Pusher for real-time notification when a new alert is received (and dynamic update of the unread counter).
 
-@todo: insert screenshot
+<img width="100%" src="imgs/screenrecording.gif" >
 
 ## Installation
 
