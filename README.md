@@ -55,7 +55,20 @@ php artisan nova:publish
    ...
 ```
 
-If you wish to use real-time notifications, make sure Pusher is configured via `config/broadcasting.php`. Alternatively you may disable real-time notifications via the Mynabird configuration:
+If you wish to use real-time notifications, make sure Pusher is configured via `config/broadcasting.php` and/or the .env file; for example:
+
+```bash
+# Set the broadcast driver to send events to Pusher:
+BROADCAST_DRIVER=pusher
+
+# Add the pusher config, which you can find/configure via the dashboard: https://dashboard.pusher.com
+PUSHER_APP_ID=aaabbbcccdddeeefffgg
+PUSHER_APP_KEY=hhhiiijjjkkklllmmmnn
+PUSHER_APP_SECRET=1000001
+PUSHER_APP_CLUSTER=mt1
+``` 
+
+Alternatively if you wish to disable real-time notifications you may do so via the Mynabird configuration:
 
 ```php
 <?php
@@ -69,7 +82,7 @@ If broadcasting is disabled users will need to refresh to see new alerts.
 
 ## Usage
 
-You can trigger alerts using the `AlertRepository`:
+You can trigger alerts using the `AlertRepository` which (assuming MynabirdServiceProvider has been loaded) can be resolved through the Laravel IoC container:
 
 ```php
 <?php
@@ -96,18 +109,18 @@ class BroadcastAlert extends Command
 
     public function handle()
     {
-        // etc...
-
+        // Create an alert object: Montopolis\Mynabird\DataObjects\Alert
         $alert = new Alert(
             null,
             $title,
             $body,
             $url,
             $level,
-            null,
-            true
+            null, // set to user ID for individual notification
+            true // set to `true` for broadcast message
         );
 
+        // Send the alert:
         $this->alertsRepository->store($alert);
     }
 }

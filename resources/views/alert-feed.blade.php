@@ -1,9 +1,9 @@
 @php($config = app()->make('config'))
 <alert-feed :config="{{
-    json_encode(array_merge(data_get($config, 'mynabird', []), [
+    json_encode(array_merge(\Montopolis\Mynabird\Support\Arr::get($config, 'mynabird', []), [
         'pusher' => [
-            'key' => data_get($config, 'broadcasting.connections.pusher.key'),
-            'cluster' => data_get($config, 'broadcasting.connections.pusher.options.cluster'),
+            'key' => \Montopolis\Mynabird\Support\Arr($config, 'broadcasting.connections.pusher.key'),
+            'cluster' => \Montopolis\Mynabird\Support\Arr($config, 'broadcasting.connections.pusher.options.cluster'),
         ],
     ]))
 }}"></alert-feed>

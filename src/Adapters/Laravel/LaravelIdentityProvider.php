@@ -17,6 +17,9 @@ class LaravelIdentityProvider implements IdentityProvider
         $this->app = $app;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getAuthenticatedUserId(): ?UserId
     {
         if ($user = $this->app->make('auth')->user()) {

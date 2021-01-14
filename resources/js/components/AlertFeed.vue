@@ -38,7 +38,7 @@ export default {
             this.isPanelVisible = !this.isPanelVisible
         },
         changePage: function (page, callback) {
-            axios.get(`${ENDPOINT}?page=${page}`)
+            Nova.request().get(`${ENDPOINT}?page=${page}`)
                 .then(response => {
                     this.alerts = response.data;
                     callback && callback();
@@ -46,7 +46,7 @@ export default {
         },
         markAlertRead(alert) {
             if (!alert.read_at) {
-                axios.post(`${ENDPOINT}/read`, {alert_ids: [alert.id]})
+                Nova.request().post(`${ENDPOINT}/read`, {alert_ids: [alert.id]})
                     .then(response => {
                         this.alerts.unread--;
                     })

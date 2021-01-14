@@ -14,6 +14,7 @@ use Montopolis\Mynabird\Events\NewAlert;
 use Montopolis\Mynabird\Interfaces\AlertsRepository;
 use Montopolis\Mynabird\Models\Alert as AlertModel;
 use Montopolis\Mynabird\Models\AlertRecipient as AlertRecipientModel;
+use Montopolis\Mynabird\Support\Arr;
 
 class LaravelAlertsRepository implements AlertsRepository
 {
@@ -24,6 +25,9 @@ class LaravelAlertsRepository implements AlertsRepository
         $this->app = $app;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function store(Alert $alert): void
     {
         $model = $this->alertModel()
@@ -53,13 +57,16 @@ class LaravelAlertsRepository implements AlertsRepository
             $alert->getRecipientId() ?: null
         );
 
-        if (data_get($this->app['config']['mynabird'], 'should_broadcast', true) === false) {
+        if (Arr::get($this->app['config']['mynabird'], 'should_broadcast', true) === false) {
             $event->suppressBroadcast();
         }
 
         $this->app['events']->dispatch($event);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function find(UserId $userId, AlertId $id): ?Alert
     {
         $alertsTable = $this->alertModel()->getTable();
@@ -67,17 +74,17 @@ class LaravelAlertsRepository implements AlertsRepository
         if ($row = $this->query($userId->asInt())
             ->where("{$alertsTable}.id", $id->asInt())
             ->first()) {
-            $id = (int) data_get($row, 'id');
-            $title = data_get($row, 'title');
-            $body = data_get($row, 'body');
-            $url = data_get($row, 'url');
-            $level = data_get($row, 'level') ?: 'info';
-            $recipientId = data_get($row, 'recipient_id') ?: null;
+            $id = (int) Arr::get($row, 'id');
+            $title = Arr::get($row, 'title');
+            $body = Arr::get($row, 'body');
+            $url = Arr::get($row, 'url');
+            $level = Arr::get($row, 'level') ?: 'info';
+            $recipientId = Arr::get($row, 'recipient_id') ?: null;
             $recipientId = $recipientId ? (int) $recipientId : null;
-            $isBroadcast = (bool) data_get($row, 'is_broadcast');
-            $readAt = data_get($row, 'read_at');
+            $isBroadcast = (bool) Arr::get($row, 'is_broadcast');
+            $readAt = Arr::get($row, 'read_at');
             $readAt = $readAt ? new Carbon($readAt) : null;
-            $createdAt = data_get($row, 'created_at');
+            $createdAt = Arr::get($row, 'created_at');
             $createdAt = new Carbon($createdAt);
             return new Alert($id, $title, $body, $url, $level, $recipientId, $isBroadcast, $readAt, $createdAt);
         }
@@ -85,6 +92,9 @@ class LaravelAlertsRepository implements AlertsRepository
         return null;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function paginateForUser(UserId $userId, int $page = 1): array
     {
         $page = $this->query($userId->asInt())
@@ -92,17 +102,17 @@ class LaravelAlertsRepository implements AlertsRepository
 
         return [
             'items' => array_map(function ($row) {
-                $id = (int) data_get($row, 'id');
-                $title = data_get($row, 'title');
-                $body = data_get($row, 'body');
-                $url = data_get($row, 'url');
-                $level = data_get($row, 'level') ?: 'info';
-                $recipientId = data_get($row, 'recipient_id') ?: null;
+                $id = (int) Arr::get($row, 'id');
+                $title = Arr::get($row, 'title');
+                $body = Arr::get($row, 'body');
+                $url = Arr::get($row, 'url');
+                $level = Arr::get($row, 'level') ?: 'info';
+                $recipientId = Arr::get($row, 'recipient_id') ?: null;
                 $recipientId = $recipientId ? (int) $recipientId : null;
-                $isBroadcast = (bool) data_get($row, 'is_broadcast');
-                $readAt = data_get($row, 'read_at');
+                $isBroadcast = (bool) Arr::get($row, 'is_broadcast');
+                $readAt = Arr::get($row, 'read_at');
                 $readAt = $readAt ? new Carbon($readAt) : null;
-                $createdAt = data_get($row, 'created_at');
+                $createdAt = Arr::get($row, 'created_at');
                 $createdAt = new Carbon($createdAt);
 
                 return new Alert($id, $title, $body, $url, $level, $recipientId, $isBroadcast, $readAt, $createdAt);
@@ -114,6 +124,9 @@ class LaravelAlertsRepository implements AlertsRepository
         ];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function markAsRead(UserId $userId, array $alertIds): void
     {
         $ids = array_map(function (AlertId $alertId) {
@@ -151,6 +164,9 @@ class LaravelAlertsRepository implements AlertsRepository
             ->insert($inserts);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function markAllAsRead(UserId $userId): void
     {
         $alertsTable = $this->alertModel()->getTable();

@@ -32,7 +32,8 @@ export default {
         'alerts',
         'changePage',
         'markAsRead',
-        // 'markAllAsRead', // @todo
+        // "markAllAsRead" functionality not currently implemented, may be added later:
+        // 'markAllAsRead',
     ],
     computed: {
         hasNext: function () {
@@ -77,13 +78,11 @@ export default {
     background-color: #536170;
     padding-bottom: 70px;
 }
-
 #alerts-panel-close {
     height: 60px;
     line-height: 60px;
     cursor: pointer;
 }
-
 #alerts-panel-close:hover {
     background-color: #252D37;
 }

@@ -30,6 +30,17 @@
 </template>
 
 <script>
+const openUrl = (url, newWindow) => {
+    if (newWindow) {
+        const win = window.open(url, '_blank');
+        if (win && win.focus) {
+            win.focus();
+        }
+    } else {
+        window.location.href = url;
+    }
+};
+
 export default {
     name: 'AlertMessage',
     props: [
@@ -43,15 +54,16 @@ export default {
     },
     methods: {
         handleClick() {
+            // Mark the alert as "read" when clicked on:
             if (!this.alert.read_at) {
                 this.$emit('alertRead', this.alert);
                 this.alert.read_at = moment();
             }
+            // If the alert has an associated URL, try and open it:
             if (this.alert.url) {
-                const win = window.open(this.alert.url, '_blank');
-                if (win && win.focus) {
-                    win.focus();
-                }
+                const url = this.alert.url;
+                const newWindow = !! this.config.open_links_in_same_window;
+                openUrl(url, newWindow);
             }
         }
     },
