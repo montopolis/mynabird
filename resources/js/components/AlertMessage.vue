@@ -62,7 +62,7 @@ export default {
             // If the alert has an associated URL, try and open it:
             if (this.alert.url) {
                 const url = this.alert.url;
-                const newWindow = !! this.config.open_links_in_same_window;
+                const newWindow = !this.config.open_links_in_same_window;
                 openUrl(url, newWindow);
             }
         }
