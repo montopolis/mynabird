@@ -80,6 +80,6 @@ export default {
     // no style change
 }
 .read-alert {
-    opacity: .7;
+    opacity: .3;
 }
 </style>
